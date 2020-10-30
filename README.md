@@ -51,7 +51,13 @@ This doc will be helpful: https://www.tutorialspoint.com/postgresql/postgresql_s
 ## Heroku
 - You need to also include the dotenv package. This allows you to set variable in a .env file and access the vairables in your application. Heroku uses the .env to tell your app where the postgresql server is. See .env file, package.json and db_config.js files for more information.
 - Install the Heroku CLI if you haven't already.
-
+- run "heroku login" and follow steps.
+- run "heroku create [my app name]"
+- run "heroku addons:create heroku-postgresql:hobby-dev --app=[my app name]"
+- run "heroku addons" to verify that your app shows up with a heroku-postgresql plan. The hobby-dev plan is free!
+- run "heroku local web" to test the heroku instance locally at http://localhost:5000
+- run "heroku git:remote -a [my app name]" to create your heroku remote
+- push code to heroku with "git add .", "git commit -m '[commit message]'", "git push heroku master"
 
 Helpful link: taniarascia.com/node-express-postgresql-heroku/#deploy-app-to-heroku
 https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-windows

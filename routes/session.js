@@ -30,7 +30,6 @@ router.post(
     
     // authenticate and sign the user in
     req.session.uid = user.id;
-    console.log("user", user)
     res.status(201).json({data: user, message: "You are signed in."}).end();
 
   } catch (error) {

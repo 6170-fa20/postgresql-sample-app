@@ -1,10 +1,7 @@
 require('dotenv').config(); // This allows us to use variables in .env file through process.env
 const pgp = require('pg-promise')();
-const isProduction = process.env.NODE_ENV === 'production'; // process.env will be used by heroku and NODE_ENV will be set to production there.
+const isProduction = process.env.NODE_ENV === 'production'; // process.env will be used by heroku to provide configs and NODE_ENV will be set to production there.
 const localHostConnectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`; // Make sure your .env file has all your database information for your localhost.
-
-
-let pgDb;
 
 // name the columns of our tables for localization
 const columnNames = {
@@ -16,12 +13,12 @@ const columnNames = {
 };
 Object.freeze(columnNames);
 
+let pgDb;
+
 function createDb() {
   pgDb = pgp(isProduction ? process.env.DATABASE_URL : localHostConnectionString);
-  console.log('about to create user table');
   createUserTable()
-    .then( () => { // use promise.then to ensure user table gets created before shorts table.
-      console.log('about to create shorts');
+    .then( () => { // use .then to ensure user table gets created before shorts table since shorts table references user table.
       createShortsTable()
     });
 };
@@ -45,46 +42,18 @@ function createShortsTable() {
 
 // Helper wrapper functions that return promises that resolve when sql queries are complete.
 function run(sqlQuery) {
-  return new Promise((resolve, reject) => {
-    console.log("here222");
-    pgDb.none(sqlQuery)
-      .then( () => {
-        console.log("run db call:", sqlQuery);
-        resolve();
-      })
-      .catch( () => {
-        console.log("run error db call:", sqlQuery);
-        reject();
-      })
-  });
+  console.log("db run call", sqlQuery); // Adding this log to help with Heroku debugging if needed.
+  return pgDb.none(sqlQuery);
 };
 
 function get(sqlQuery) {
-  return new Promise((resolve, reject) => {
-    pgDb.oneOrNone(sqlQuery)
-      .then((rows) => {
-        console.log("get db call:", sqlQuery, rows);
-        resolve(rows);
-      })
-      .catch((e) => {
-        console.log("here3", e);
-        reject();
-      })
-  });
+  console.log("db get call", sqlQuery); // Adding this log to help with Heroku debugging if needed.
+  return pgDb.oneOrNone(sqlQuery);
 };
 
 function all(sqlQuery) {
-  return new Promise((resolve, reject) => {
-    pgDb.any(sqlQuery)
-      .then( (rows) => {
-        console.log("any db call:", sqlQuery, rows);
-        resolve(rows);
-      })
-      .catch( () => {
-        console.log("here3", sqlQuery);
-        reject();
-      })
-  });
+  console.log("db all call", sqlQuery); // Adding this log to help with Heroku debugging if needed.
+  return pgDb.any(sqlQuery);
 };
 
 createDb();

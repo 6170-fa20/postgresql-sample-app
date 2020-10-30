@@ -17,24 +17,24 @@ const columnNames = {
 Object.freeze(columnNames);
 
 function createDb() {
-  console.log('about to create');
   pgDb = pgp(isProduction ? process.env.DATABASE_URL : localHostConnectionString);
-  console.log('about to create2');
-  createUserTable();
-  console.log('about to create3');
-  createShortsTable();
-  console.log('about to create4');
+  console.log('about to create user table');
+  createUserTable()
+    .then( () => { // use promise.then to ensure user table gets created before shorts table.
+      console.log('about to create shorts');
+      createShortsTable()
+    });
 };
 
 function createUserTable() {
-  pgDb.none(`CREATE TABLE IF NOT EXISTS users (
+  return pgDb.none(`CREATE TABLE IF NOT EXISTS users (
     ${columnNames.userId} SERIAL PRIMARY KEY,
     ${columnNames.userName} TEXT NOT NULL UNIQUE
   )`).then(() => { console.log("Created User table!");});
 };
 
 function createShortsTable() {
-  pgDb.none(`CREATE TABLE IF NOT EXISTS shorts (
+  return pgDb.none(`CREATE TABLE IF NOT EXISTS shorts (
     ${columnNames.shortName} TEXT PRIMARY KEY,
     ${columnNames.shortURL} TEXT NOT NULL,
     ${columnNames.shortCreator} INTEGER NOT NULL,

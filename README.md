@@ -58,6 +58,10 @@ This doc will be helpful: https://www.tutorialspoint.com/postgresql/postgresql_s
 - run "heroku local web" to test the heroku instance locally at http://localhost:5000
 - run "heroku git:remote -a [my app name]" to create your heroku remote
 - push code to heroku with "git add .", "git commit -m '[commit message]'", "git push heroku master"
+- you can test you app at your deployed link.
 
 Helpful link: taniarascia.com/node-express-postgresql-heroku/#deploy-app-to-heroku
 https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-windows
+
+Notes:
+- this command can be used to reset your database. YOU WILL LOOSE YOUR DATA! "heroku pg:reset DATABASE"

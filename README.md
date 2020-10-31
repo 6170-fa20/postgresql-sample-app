@@ -2,8 +2,8 @@
 This sample app is to showcase how you would set up your application with a PostgreSQL database using the URL shortener app from Recitation 6.
 
 ## New packages
-pg-promise -- for postgres (http://vitaly-t.github.io/pg-promise/)
-dotenv -- for environment variables (https://www.npmjs.com/package/dotenv)
+pg-promise -- for postgres (http://vitaly-t.github.io/pg-promise/)  
+dotenv -- for environment variables (https://www.npmjs.com/package/dotenv)  
 (See package.json)
 
 ## Installing PostGreSQL locally
@@ -52,12 +52,12 @@ This doc will be helpful: https://www.tutorialspoint.com/postgresql/postgresql_s
 ## Heroku
 - You need to also include the dotenv package. This allows you to set variable in a .env file and access the vairables in your application through the process.env variable. Heroku uses the .env to tell your app where the postgresql server is (see db_config.js for usage).
 
-You should add .env to your .gitignore if it's not already there (i.e. it shouldn't be pushed), as heroku will create its own .env. It should include the following definitions (with values specific to your own database):
-DB_USER=postgres
-DB_PASSWORD=password
-DB_HOST=localhost
-DB_PORT=5432
-DB_DATABASE=postgres
+You should add .env to your .gitignore if it's not already there (i.e. it shouldn't be pushed), as heroku will create its own .env. It should include the following definitions (with values specific to your own database):  
+DB_USER=postgres  
+DB_PASSWORD=password  
+DB_HOST=localhost  
+DB_PORT=5432  
+DB_DATABASE=postgres  
 
 Set up Heroku
 - Install the Heroku CLI if you haven't already.

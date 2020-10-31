@@ -1,16 +1,21 @@
 # URL Shortener
-This sample app is to showcase how you would set up your application with a PostgreSQL database using the URL shortner app from Recitation 6.
+This sample app is to showcase how you would set up your application with a PostgreSQL database using the URL shortener app from Recitation 6.
+
+## New packages
+pg-promise -- for postgres (http://vitaly-t.github.io/pg-promise/)
+dotenv -- for environment variables (https://www.npmjs.com/package/dotenv)
+(See package.json)
 
 ## Installing PostGreSQL locally
 Notes before starting download and install:
 - At some point you will be asked to select components to download, you can include all the suggestions. You should at least include pgAdmin. pgAdmin will be the UI that you can use to interact with your DB locally.
-- Note down the password for you super user postgres.
+- Note down the password for your super user.
 - Allow default port setting and others.
 
-To download and install postgresql go to https://www.enterprisedb.com/downloads/postgres-postgresql-downloads.
+To download and install the most recent version of postgresql, go to https://www.enterprisedb.com/downloads/postgres-postgresql-downloads.
 
 ## Starting a server
-There should be default server and database when you start the pgAdmin. By clicking on the default server under "Servers" the server should start.
+There should be a default server and database when you start the pgAdmin. By clicking on the default server under "Servers" the server should start.
 
 You can also create a new server if need be.
 - Right click on Servers and choose to create a Server.
@@ -27,20 +32,17 @@ Servers -> [your server] -> Databases -> [your database] -> Schemas -> Tables
 Right click a table and choose View/Edit Data
 
 ## App
-For your app you need to remember:
-- username
+For your app you need to remember the following information from postgres (can be found in pgAdmin):
+- username (this is postgres by default)
 - password
 - host (this is normally set to localhost)
 - port (his is normally 5432)
-- name of database
+- name of database (this is postgres by default)
 
 You will need a connection detail string which is of the form 
 postgres://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DATABASE_NAME]
 
-The node package we will be using is 'pg-promise' which you will see in the package.json of this sample app.
-Link: http://vitaly-t.github.io/pg-promise/
-
-The main changes are in db_config.js. You need to require the new package and instantiate it differently(see file for more details).
+The main changes are in db_config.js. We will be using a new package: pg-promise. You need to require the new package and instantiate it differently(see file for more details).
 Also the methods for the pgDB are different so pay attention to the changes in run, get and all functions. pg-promise already uses promises so we are no longer wrapping the calls in a promise like we did for sqlite3.
 
 Things to note:
@@ -48,7 +50,14 @@ Things to note:
 This doc will be helpful: https://www.tutorialspoint.com/postgresql/postgresql_syntax.htm
 
 ## Heroku
-- You need to also include the dotenv package. This allows you to set variable in a .env file and access the vairables in your application through the process.env variable. Heroku uses the .env to tell your app where the postgresql server is. See the .env, package.json and db_config.js files for more information.
+- You need to also include the dotenv package. This allows you to set variable in a .env file and access the vairables in your application through the process.env variable. Heroku uses the .env to tell your app where the postgresql server is (see db_config.js for usage).
+
+You should add .env to your .gitignore if it's not already there (i.e. it shouldn't be pushed), as heroku will create its own .env. It should include the following definitions (with values specific to your own database):
+DB_USER=postgres
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_PORT=5432
+DB_DATABASE=postgres
 
 Set up Heroku
 - Install the Heroku CLI if you haven't already.
@@ -62,7 +71,7 @@ Create an Heroku app and include the postgresql add on.
 
 Push app and changes to Heroku
 - run "heroku git:remote -a [my app name]" to create your heroku remote
-- push code to heroku with "git add .", "git commit -m '[commit message]'", "git push heroku master"
+- push code to heroku with "git add .", "git commit -m '[commit message]'", "git push heroku main" (main or master depending on your branch name)
 - you can test you app at your deployed link.
 
 Helpful links 
